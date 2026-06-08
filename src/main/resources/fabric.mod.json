@@ -1,0 +1,24 @@
+{
+    "schemaVersion": 1,
+    "id": "solace",
+    "version": "${version}",
+    "name": "Solace",
+    "description": "A configurable, per-player middleground between Survival and Creative — safe, no-combat co-op for a shared survival world, without changing world difficulty.",
+    "authors": ["Isaac Harper"],
+    "license": "MIT",
+    "environment": "*",
+    "entrypoints": {
+        "main": ["net.solace.Solace"],
+        "client": ["net.solace.client.SolaceClient"],
+        "modmenu": ["net.solace.client.SolaceModMenu"]
+    },
+    "mixins": [
+        "solace.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "minecraft": "~26.1.2",
+        "java": ">=25",
+        "fabric-api": "*"
+    }
+}

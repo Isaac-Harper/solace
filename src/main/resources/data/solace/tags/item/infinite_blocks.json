@@ -1,0 +1,16 @@
+{
+    "values": [
+        "minecraft:dirt",
+        "minecraft:cobblestone",
+        "minecraft:stone",
+        "minecraft:oak_planks",
+        "minecraft:oak_log",
+        "minecraft:sand",
+        "minecraft:gravel",
+        "minecraft:netherrack",
+        "minecraft:andesite",
+        "minecraft:diorite",
+        "minecraft:granite",
+        "minecraft:white_wool"
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "package": "net.solace.mixin",
+    "mixins": [
+        "MobMixin",
+        "ServerExplosionMixin",
+        "ServerPlayerGameModeMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
