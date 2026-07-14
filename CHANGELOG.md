@@ -5,7 +5,7 @@ The `## <version>` section matching `mod_version` becomes the Modrinth changelog
 
 ## 1.0.0
 
-Initial release, for Minecraft 26.1.2 (Fabric).
+Initial release, for Minecraft 26.2 (Fabric).
 
 - Per-player Solace state: damage immunity, hostile mobs ignore you (including the Warden), no phantoms, can't-die backstop with void rescue.
 - Three presets (Survival+, Comfort, Creative-Lite) with every feature also an independent per-player override via `/solace set`.

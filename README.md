@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/modrinth/dt/solace-mod?logo=modrinth&color=00AF5C&label=downloads)](https://modrinth.com/mod/solace-mod)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-A per-player middleground between Survival and Creative, for Fabric on Minecraft 26.1.
+A per-player middleground between Survival and Creative, for Fabric on Minecraft 26.2.
 
 One player opts into a safe, no-combat "Solace" state (immune to harm, ignored by hostile
 mobs, with a dial from pure safe-survival up to creative-lite) while everyone else keeps
@@ -82,7 +82,7 @@ Cloth Config on the client, or with a text editor and `/solace reload`):
 
 ## Install
 
-1. Install [Fabric Loader](https://fabricmc.net/use/) 0.19.3+ for Minecraft 26.1.2 and [Fabric API](https://modrinth.com/mod/fabric-api).
+1. Install [Fabric Loader](https://fabricmc.net/use/) 0.19.3+ for Minecraft 26.2 and [Fabric API](https://modrinth.com/mod/fabric-api).
 2. Drop the Solace jar in `mods/`. It is required on the server; on the client it is optional and only adds the config screen ([Mod Menu](https://modrinth.com/mod/modmenu) + [Cloth Config](https://modrinth.com/mod/cloth-config)).
 3. In game: `/solace on`.
 

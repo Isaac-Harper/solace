@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.solace.SolaceData;
 import net.solace.SolaceState;
@@ -45,7 +45,7 @@ public final class SolaceGameTests {
         // canAttack short-circuits to false in peaceful, which would mask the veto.
         helper.getLevel().getServer().setDifficulty(Difficulty.HARD, true);
         ServerPlayer player = mockPlayer(helper);
-        Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, new BlockPos(1, 2, 1));
+        Zombie zombie = helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, new BlockPos(1, 2, 1));
 
         if (!zombie.canAttack(player)) {
             throw helper.assertionException(
