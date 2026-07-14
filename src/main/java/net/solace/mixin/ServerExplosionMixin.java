@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * M8 — base protection. Decides whether an explosion may destroy blocks, mirroring how the
+ * M8: base protection. Decides whether an explosion may destroy blocks, mirroring how the
  * vanilla mobGriefing rule disables creeper block damage. Entity damage is untouched, so mobs
  * still threaten non-Solace players; only block destruction is suppressed.
  */
@@ -20,21 +20,20 @@ public abstract class ServerExplosionMixin {
     @Inject(method = "canTriggerBlocks", at = @At("HEAD"), cancellable = true)
     private void solace$baseProtection(CallbackInfoReturnable<Boolean> cir) {
         SolaceConfig config = SolaceConfig.get();
-        String mode = config.baseProtection.mode;
-        if (mode == null || "off".equals(mode)) {
+        String mode = config.baseProtection.resolvedMode();
+        if (SolaceConfig.BaseProtection.OFF.equals(mode)) {
             return;
         }
         Explosion self = (Explosion) (Object) this;
 
-        if ("all_explosions".equals(mode)) {
+        if (SolaceConfig.BaseProtection.ALL_EXPLOSIONS.equals(mode)) {
             cir.setReturnValue(false);
             return;
         }
 
-        if ("home_region".equals(mode)) {
+        if (SolaceConfig.BaseProtection.HOME_REGION.equals(mode)) {
             SolaceConfig.Home home = config.home;
-            if (home != null && home.dimension != null
-                    && home.dimension.equals(self.level().dimension().identifier().toString())) {
+            if (home != null && home.matches(self.level())) {
                 double radius = config.baseProtection.homeRadius;
                 if (self.center().distanceToSqr(home.x, home.y, home.z) <= radius * radius) {
                     cir.setReturnValue(false);

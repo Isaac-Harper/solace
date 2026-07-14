@@ -1,5 +1,62 @@
 {
     "solace.name": "Solace",
+
     "tag.item.solace.infinite_blocks": "Solace: Infinite Blocks",
-    "tag.item.solace.infinite_torches": "Solace: Infinite Torches"
+    "tag.item.solace.infinite_torches": "Solace: Infinite Torches",
+
+    "solace.config.title": "Solace",
+    "solace.config.category.mysolace": "My Solace",
+    "solace.config.category.general": "General",
+    "solace.config.category.teleport": "Teleport",
+    "solace.config.category.protection": "Base protection",
+    "solace.config.category.caps": "Feature caps",
+    "solace.config.category.serverconfig": "Server config",
+
+    "solace.mysolace.hint": "Your own Solace settings. Changes apply when you press Save, the same as running the /solace commands; the server has the final say on capped features and permissions.",
+    "solace.mysolace.enabled": "Solace enabled",
+    "solace.mysolace.preset": "Preset",
+
+    "solace.feature.no_hunger": "No hunger",
+    "solace.feature.night_vision": "Night vision",
+    "solace.feature.infinite_torches": "Infinite torches",
+    "solace.feature.flight": "Flight",
+    "solace.feature.reach_boost": "Reach boost",
+    "solace.feature.mining_boost": "Mining boost",
+    "solace.feature.infinite_blocks": "Infinite blocks",
+    "solace.feature.no_durability": "No durability",
+
+    "solace.config.allow_self_service": "Allow self-service",
+    "solace.config.allow_self_service.tooltip": "If off, only operators can use /solace.",
+    "solace.config.pacifist": "Pacifist",
+    "solace.config.pacifist.tooltip": "Solace players cannot deal damage to mobs or players.",
+    "solace.config.default_preset": "Default preset",
+    "solace.config.allow_multiple_players": "Allow multiple players",
+    "solace.config.allow_multiple_players.tooltip": "If off, only one player may have Solace enabled at a time.",
+
+    "solace.config.teleport.enabled": "Enabled",
+    "solace.config.teleport.cooldown": "Cooldown (seconds)",
+    "solace.config.teleport.cross_dimension": "Cross-dimension",
+
+    "solace.config.protection.mode": "Mode",
+    "solace.config.protection.mode.tooltip": "Which explosions may break blocks. Home region uses /solace home set.",
+    "solace.config.protection.home_radius": "Home radius",
+    "solace.config.protection.home_radius.tooltip": "Protected radius around the home (home region mode only).",
+
+    "solace.config.caps.flight": "Flight",
+    "solace.config.caps.reach": "Reach boost",
+    "solace.config.caps.mining": "Mining boost",
+    "solace.config.caps.infinite_blocks": "Infinite basic blocks",
+    "solace.config.caps.no_durability": "No durability",
+
+    "solace.config.remote.heading": "Configured on the server",
+    "solace.config.remote.body": "These settings live on the server you're connected to, so this screen can't change them from here. An operator can adjust them in-game with /solace commands, or by editing config/solace.json on the server. This editor is available at the title screen and when you host the world yourself.",
+
+    "solace.preset.survival_plus": "Survival+",
+    "solace.preset.comfort": "Comfort",
+    "solace.preset.creative_lite": "Creative-Lite",
+
+    "solace.protection.hostile_explosions": "Hostile explosions",
+    "solace.protection.all_explosions": "All explosions",
+    "solace.protection.home_region": "Home region",
+    "solace.protection.off": "Off"
 }

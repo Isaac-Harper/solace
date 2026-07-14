@@ -18,3 +18,9 @@ runs/
 
 # OS
 .DS_Store
+
+# Local secrets (MODRINTH_TOKEN)
+.env
+
+# Playtest logs
+logs/

@@ -1,0 +1,15 @@
+{
+    "schemaVersion": 1,
+    "id": "solace_test",
+    "version": "1.0.0",
+    "name": "Solace GameTests",
+    "description": "Dev-only companion mod carrying the fabric-gametest entrypoint. Lives in the test source set so the shipped Solace jar never references test classes (a fabric-gametest entrypoint in the main fabric.mod.json crashes production, where the test classes don't exist).",
+    "license": "MIT",
+    "environment": "*",
+    "entrypoints": {
+        "fabric-gametest": ["net.solace.test.SolaceGameTests"]
+    },
+    "depends": {
+        "solace": "*"
+    }
+}

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Solace — a per-player middleground between Survival and Creative.
+ * Solace: a per-player middleground between Survival and Creative.
  *
  * <p>Common (main) entrypoint, loaded on both client and dedicated server.
  */
@@ -24,6 +24,6 @@ public class Solace implements ModInitializer {
         SafetyEvents.register();    // M2: damage immunity + can't-die backstop
         ComfortTicker.register();   // M6: no phantoms / no hunger / night vision
         SolaceCommands.register();  // M1/M4: /solace on|off|status|preset|set|reload
-        LOGGER.info("Solace initialized — safe co-op survival for Minecraft 26.1.");
+        LOGGER.info("Solace initialized: safe co-op survival for Minecraft 26.1.");
     }
 }

@@ -1,5 +1,7 @@
 package net.solace.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,14 +20,14 @@ import net.solace.SolaceState;
 import net.solace.config.SolaceConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * M7 — infinite basic blocks / torches. Preserves the held stack's count across block placement
- * for Solace players who have the feature and are holding a tagged item — the same trick creative
- * mode uses, scoped to the {@code solace:infinite_blocks} / {@code solace:infinite_torches} tags.
+ * M7: infinite basic blocks / torches. Restores the held stack after block placement
+ * for Solace players holding a tagged item, the same way creative mode does (a copy
+ * saved before use and put back after), scoped to the {@code solace:infinite_blocks} /
+ * {@code solace:infinite_torches} tags. The wrap keeps the saved copy in a local, so
+ * it survives the stack emptying on its last item, re-entrant useItemOn calls from
+ * modded blocks, exceptions, and other mods' cancellations.
  */
 @Mixin(ServerPlayerGameMode.class)
 public abstract class ServerPlayerGameModeMixin {
@@ -37,36 +39,32 @@ public abstract class ServerPlayerGameModeMixin {
     private static final TagKey<Item> SOLACE_INFINITE_TORCHES =
             TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("solace", "infinite_torches"));
 
-    @Unique
-    private int solace$savedCount = -1;
-
-    @Inject(method = "useItemOn", at = @At("HEAD"))
-    private void solace$saveCount(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand,
-                                  BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
-        solace$savedCount = solace$shouldPreserve(player, stack) ? stack.getCount() : -1;
-    }
-
-    @Inject(method = "useItemOn", at = @At("RETURN"))
-    private void solace$restoreCount(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand,
-                                     BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
-        if (solace$savedCount >= 0 && !stack.isEmpty()) {
-            stack.setCount(solace$savedCount);
+    @WrapMethod(method = "useItemOn")
+    private InteractionResult solace$preserveInfiniteItems(ServerPlayer player, Level level, ItemStack stack,
+                                                           InteractionHand hand, BlockHitResult hit,
+                                                           Operation<InteractionResult> original) {
+        ItemStack saved = solace$shouldPreserve(player, stack) ? stack.copy() : ItemStack.EMPTY;
+        try {
+            return original.call(player, level, stack, hand, hit);
+        } finally {
+            if (!saved.isEmpty()) {
+                player.setItemInHand(hand, saved);
+            }
         }
-        solace$savedCount = -1;
     }
 
     @Unique
     private boolean solace$shouldPreserve(ServerPlayer player, ItemStack stack) {
-        if (stack.isEmpty() || !SolaceState.isEnabled(player)) {
+        if (stack.isEmpty()) {
             return false;
         }
         SolaceData data = SolaceState.get(player);
         SolaceConfig config = SolaceConfig.get();
-        if (Features.effective(data, Feature.INFINITE_BLOCKS, config)
+        if (Features.active(data, Feature.INFINITE_BLOCKS, config)
                 && stack.is(holder -> holder.is(SOLACE_INFINITE_BLOCKS))) {
             return true;
         }
-        return Features.effective(data, Feature.INFINITE_TORCHES, config)
+        return Features.active(data, Feature.INFINITE_TORCHES, config)
                 && stack.is(holder -> holder.is(SOLACE_INFINITE_TORCHES));
     }
 }

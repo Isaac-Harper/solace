@@ -1,0 +1,27 @@
+name: sync-modrinth-body
+
+# Re-syncs the Modrinth project page from README.md without uploading a version.
+# Manual only; requires the MODRINTH_TOKEN repo secret and `modrinth_id` in gradle.properties.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync Modrinth project page (body from README)
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          MODRINTH_ID=$(sed -n 's/^modrinth_id=\(.*\)$/\1/p' gradle.properties)
+          jq -Rs '{body: .}' README.md > /tmp/body.json
+          curl -sS --fail-with-body -X PATCH \
+            -H "Authorization: $MODRINTH_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @/tmp/body.json \
+            "https://api.modrinth.com/v2/project/$MODRINTH_ID"

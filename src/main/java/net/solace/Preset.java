@@ -3,7 +3,7 @@ package net.solace;
 import com.mojang.serialization.Codec;
 
 /**
- * The "dial" — how close a Solace player sits to creative.
+ * The "dial": how close a Solace player sits to creative.
  */
 public enum Preset {
     SURVIVAL_PLUS("survival+"),

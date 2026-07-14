@@ -3,9 +3,10 @@
     "id": "solace",
     "version": "${version}",
     "name": "Solace",
-    "description": "A configurable, per-player middleground between Survival and Creative — safe, no-combat co-op for a shared survival world, without changing world difficulty.",
+    "description": "A configurable, per-player middleground between Survival and Creative: safe, no-combat co-op for a shared survival world, without changing world difficulty.",
     "authors": ["Isaac Harper"],
     "license": "MIT",
+    "icon": "assets/solace/icon.png",
     "environment": "*",
     "entrypoints": {
         "main": ["net.solace.Solace"],

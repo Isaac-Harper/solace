@@ -1,7 +1,5 @@
 package net.solace;
 
-import com.mojang.serialization.Codec;
-
 import java.util.EnumSet;
 
 /**
@@ -29,8 +27,6 @@ public enum Feature {
     public boolean defaultFor(Preset preset) {
         return defaultOn.contains(preset);
     }
-
-    public static final Codec<Feature> CODEC = Codec.STRING.xmap(Feature::byIdOrNull, f -> f.id);
 
     public static Feature byIdOrNull(String id) {
         for (Feature f : values()) {

@@ -2,9 +2,12 @@
     "required": true,
     "package": "net.solace.mixin",
     "mixins": [
+        "ItemStackMixin",
+        "LivingEntityMixin",
         "MobMixin",
         "ServerExplosionMixin",
-        "ServerPlayerGameModeMixin"
+        "ServerPlayerGameModeMixin",
+        "WardenMixin"
     ],
     "injectors": {
         "defaultRequire": 1
