@@ -59,6 +59,23 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         run: ./gradlew publishMods
 
+      - name: Set version environment metadata
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          # The Mod Publish Plugin can't set Modrinth's per-version environment field yet, and
+          # moderation rejects versions left as "unknown" (Content Rules 5.1). Solace is required
+          # on the server and optional on the client (config screen only).
+          MODRINTH_ID=$(sed -n 's/^modrinth_id=\(.*\)$/\1/p' gradle.properties)
+          VERSION=$(sed -n 's/^mod_version=\(.*\)$/\1/p' gradle.properties)+$(sed -n 's/^minecraft_version=\(.*\)$/\1/p' gradle.properties)
+          VID=$(curl -sS "https://api.modrinth.com/v2/project/$MODRINTH_ID/version" -H "Authorization: $MODRINTH_TOKEN" \
+            | jq -r --arg v "$VERSION" '.[] | select(.version_number == $v) | .id')
+          curl -sS --fail-with-body -X PATCH \
+            -H "Authorization: $MODRINTH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"environment":"server_only_client_optional"}' \
+            "https://api.modrinth.com/v3/version/$VID"
+
       - name: Sync Modrinth project page (body from README)
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

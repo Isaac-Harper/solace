@@ -29,6 +29,15 @@ the publish in CI; a local publish works too.
 Without a `MODRINTH_TOKEN` the publish **dry-runs**: it builds the jar and validates the config but
 uploads nothing (`./gradlew publishMods` is a safe way to check the wiring).
 
+After a local publish, set the version's environment metadata (moderation rejects versions left as
+"unknown"; the CI publish job does this automatically):
+
+```sh
+curl -X PATCH -H "Authorization: $MODRINTH_TOKEN" -H "Content-Type: application/json" \
+  -d '{"environment":"server_only_client_optional"}' \
+  "https://api.modrinth.com/v3/version/<version-id>"
+```
+
 The listing starts as a draft; it goes live once it has a version and you press Publish on the
 project page.
 
