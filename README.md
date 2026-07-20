@@ -80,24 +80,6 @@ Cloth Config on the client, or with a text editor and `/solace reload`):
 - **`baseProtection`**: `hostile_explosions` / `all_explosions` / `home_region` / `off`
 - **`featureCaps`**: admin master switches for flight, reach, mining speed, no-durability, and infinite blocks that override any preset or personal override
 
-## Install
-
-1. Install [Fabric Loader](https://fabricmc.net/use/) 0.19.3+ for Minecraft 26.2 and [Fabric API](https://modrinth.com/mod/fabric-api).
-2. Drop the Solace jar in `mods/`. It is required on the server; on the client it is optional and only adds the config screen ([Mod Menu](https://modrinth.com/mod/modmenu) + [Cloth Config](https://modrinth.com/mod/cloth-config)).
-3. In game: `/solace on`.
-
-## Building from source
-
-Requires JDK 25 (Gradle provisions one via the foojay resolver if none is installed).
-
-```sh
-./gradlew build     # jar lands in build/libs/
-./gradlew test      # unit tests
-./gradlew runGametest   # headless in-world GameTests
-```
-
-Full design notes live in [SPEC.md](SPEC.md).
-
 ## License
 
 [MIT](LICENSE).
