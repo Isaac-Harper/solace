@@ -7,6 +7,8 @@ The `## <version>` section matching `mod_version` becomes the Modrinth changelog
 
 - Fix explosion base protection, which never stopped blocks from breaking. Protected explosions (creepers, ghasts, withers by default; every explosion under `all_explosions`; anything inside the home radius under `home_region`) now leave blocks intact and start no fires, while still hurting and knocking back entities as usual.
 - Wind charges flip buttons, levers, doors and trapdoors as in vanilla under every protection mode.
+- Protected explosions also leave item frames, paintings, leash knots, armor stands and dropped items intact.
+- Ghast fireballs and wither skulls count as hostile under `hostile_explosions` even after their shooter dies or unloads mid-flight. Fireballs deflected by a player stay unprotected.
 
 ## 1.0.0
 

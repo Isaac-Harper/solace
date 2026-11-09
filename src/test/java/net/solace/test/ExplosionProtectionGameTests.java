@@ -2,12 +2,18 @@ package net.solace.test;
 
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.pig.Pig;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
@@ -131,6 +137,65 @@ public final class ExplosionProtectionGameTests {
         tnt.discard();
     }
 
+    private record BlocklikeEntities(ItemFrame frame, ArmorStand armorStand, ItemEntity item) {
+    }
+
+    private static BlocklikeEntities spawnBlocklikeEntities(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(4, FLOOR_Y + 1, 6), Blocks.OBSIDIAN);
+        ItemFrame frame = new ItemFrame(helper.getLevel(), helper.absolutePos(new BlockPos(4, FLOOR_Y + 1, 5)), Direction.NORTH);
+        frame.setItem(new ItemStack(Items.DIAMOND));
+        helper.getLevel().addFreshEntity(frame);
+        ArmorStand armorStand = helper.spawn(EntityTypes.ARMOR_STAND, new BlockPos(3, FLOOR_Y + 1, 4));
+        Vec3 itemPos = helper.absoluteVec(new Vec3(4.5, FLOOR_Y + 1, 3.5));
+        ItemEntity item = new ItemEntity(helper.getLevel(), itemPos.x, itemPos.y, itemPos.z, new ItemStack(Items.STICK), 0, 0, 0);
+        helper.getLevel().addFreshEntity(item);
+        return new BlocklikeEntities(frame, armorStand, item);
+    }
+
+    private static void assertBlocklikeEntitiesIntact(GameTestHelper helper, BlocklikeEntities entities) {
+        if (entities.frame().isRemoved() || !entities.frame().getItem().is(Items.DIAMOND)) {
+            throw helper.assertionException("protected explosion destroyed the item frame or its item");
+        }
+        if (entities.armorStand().isRemoved()) {
+            throw helper.assertionException("protected explosion destroyed the armor stand");
+        }
+        if (entities.item().isRemoved()) {
+            throw helper.assertionException("protected explosion destroyed the dropped item");
+        }
+    }
+
+    private static void assertBlocklikeEntitiesDestroyed(GameTestHelper helper, BlocklikeEntities entities) {
+        if (!entities.frame().isRemoved()) {
+            throw helper.assertionException("unprotected explosion should destroy the item frame");
+        }
+        if (!entities.armorStand().isRemoved()) {
+            throw helper.assertionException("unprotected explosion should destroy the armor stand");
+        }
+        if (!entities.item().isRemoved()) {
+            throw helper.assertionException("unprotected explosion should destroy the dropped item");
+        }
+    }
+
+    @GameTest
+    public void creeperKeepsBlocklikeEntitiesButHurtsMobsUnderHostileExplosions(GameTestHelper helper) {
+        buildFloor(helper);
+        BlocklikeEntities entities = spawnBlocklikeEntities(helper);
+        Pig pig = spawnPig(helper);
+        withProtection(SolaceConfig.BaseProtection.HOSTILE_EXPLOSIONS, null, () -> creeperBlast(helper));
+        assertBlocklikeEntitiesIntact(helper, entities);
+        assertDamaged(helper, pig);
+        helper.succeed();
+    }
+
+    @GameTest
+    public void creeperDestroysBlocklikeEntitiesWhenProtectionOff(GameTestHelper helper) {
+        buildFloor(helper);
+        BlocklikeEntities entities = spawnBlocklikeEntities(helper);
+        withProtection(SolaceConfig.BaseProtection.OFF, null, () -> creeperBlast(helper));
+        assertBlocklikeEntitiesDestroyed(helper, entities);
+        helper.succeed();
+    }
+
     @GameTest
     public void creeperKeepsBlocksButHurtsEntitiesUnderHostileExplosions(GameTestHelper helper) {
         buildFloor(helper);
@@ -213,6 +278,29 @@ public final class ExplosionProtectionGameTests {
         if (fireBlocks(helper) == 0) {
             throw helper.assertionException("unprotected ghast fireball should start fires");
         }
+        helper.succeed();
+    }
+
+    @GameTest
+    public void ownerlessGhastFireballKeepsBlocksUnderHostileExplosions(GameTestHelper helper) {
+        buildFloor(helper);
+        LargeFireball fireball = new LargeFireball(EntityTypes.FIREBALL, helper.getLevel());
+        withProtection(SolaceConfig.BaseProtection.HOSTILE_EXPLOSIONS, null,
+                () -> explode(helper, fireball, CREEPER_POWER, true, Level.ExplosionInteraction.MOB));
+        assertFloorIntact(helper);
+        int fires = fireBlocks(helper);
+        if (fires != 0) {
+            throw helper.assertionException("protected ownerless fireball started " + fires + " fires");
+        }
+        helper.succeed();
+    }
+
+    @GameTest
+    public void sourcelessBlastBreaksBlocksUnderHostileExplosions(GameTestHelper helper) {
+        buildFloor(helper);
+        withProtection(SolaceConfig.BaseProtection.HOSTILE_EXPLOSIONS, null,
+                () -> explode(helper, null, TNT_POWER, false, Level.ExplosionInteraction.BLOCK));
+        assertFloorBroken(helper);
         helper.succeed();
     }
 
