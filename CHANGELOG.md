@@ -3,6 +3,11 @@
 The `## <version>` section matching `mod_version` becomes the Modrinth changelog for that release
 (see the `publishMods` block in `build.gradle`).
 
+## 1.0.1
+
+- Fix explosion base protection, which never stopped blocks from breaking. Protected explosions (creepers, ghasts, withers by default; every explosion under `all_explosions`; anything inside the home radius under `home_region`) now leave blocks intact and start no fires, while still hurting and knocking back entities as usual.
+- Wind charges flip buttons, levers, doors and trapdoors as in vanilla under every protection mode.
+
 ## 1.0.0
 
 Initial release, for Minecraft 26.2 (Fabric).
