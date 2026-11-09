@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/modrinth/dt/solace-mod?logo=modrinth&color=00AF5C&label=downloads)](https://modrinth.com/mod/solace-mod)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-A per-player middleground between Survival and Creative, for Fabric on Minecraft 26.1 and 26.2.
+A per-player middleground between Survival and Creative, for Fabric on Minecraft 26.3.
 
 One player opts into a safe, no-combat "Solace" state (immune to harm, ignored by hostile
 mobs, with a dial from pure safe-survival up to creative-lite) while everyone else keeps

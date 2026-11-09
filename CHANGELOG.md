@@ -3,9 +3,16 @@
 The `## <version>` section matching `mod_version` becomes the Modrinth changelog for that release
 (see the `publishMods` block in `build.gradle`).
 
+## 1.0.1
+
+- Fix explosion base protection, which never stopped blocks from breaking. Protected explosions (creepers, ghasts, withers by default; every explosion under `all_explosions`; anything inside the home radius under `home_region`) now leave blocks intact and start no fires, while still hurting and knocking back entities as usual.
+- Wind charges flip buttons, levers, doors and trapdoors as in vanilla under every protection mode.
+- Protected explosions also leave item frames, paintings, leash knots, armor stands and dropped items intact.
+- Ghast fireballs and wither skulls count as hostile under `hostile_explosions` even after their shooter dies or unloads mid-flight. Fireballs deflected by a player stay unprotected.
+
 ## 1.0.0
 
-Initial release, for Minecraft 26.1.2 (Fabric).
+Initial release, for Minecraft 26.2 (Fabric).
 
 - Per-player Solace state: damage immunity, hostile mobs ignore you (including the Warden), no phantoms, can't-die backstop with void rescue.
 - Three presets (Survival+, Comfort, Creative-Lite) with every feature also an independent per-player override via `/solace set`.

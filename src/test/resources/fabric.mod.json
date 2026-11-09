@@ -7,7 +7,7 @@
     "license": "MIT",
     "environment": "*",
     "entrypoints": {
-        "fabric-gametest": ["net.solace.test.SolaceGameTests"]
+        "fabric-gametest": ["net.solace.test.SolaceGameTests", "net.solace.test.ExplosionProtectionGameTests"]
     },
     "depends": {
         "solace": "*"

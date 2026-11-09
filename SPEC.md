@@ -203,7 +203,7 @@ solace/
 - **M5: Native Mod Menu** *(done)*: Mod Menu + Cloth Config screen (client-only deps) over the M4 config.
 - **M6: Comfort** *(done)*: no phantoms, no hunger, night vision, infinite torches. (Easier taming was dropped from scope.)
 - **M7: Creative-Lite** *(done)*: flight, reach, faster mining, no-durability, and infinite blocks/torches (item-tag consumption mixin).
-- **M8: Base protection + teleport** *(done)*: explosion base protection (`canTriggerBlocks` mixin) with `hostile_explosions`/`all_explosions`/`home_region`/`off` modes, `/solace tp` + cooldown, `/solace home set|clear`, `/solace admin <player>`.
+- **M8: Base protection + teleport** *(done)*: explosion base protection (`ServerExplosion` mixin gating block interaction and fire in `explode()` and `shouldAffectBlocklikeEntities()`) with `hostile_explosions`/`all_explosions`/`home_region`/`off` modes, `/solace tp` + cooldown, `/solace home set|clear`, `/solace admin <player>`.
 
 ---
 
